@@ -1,32 +1,26 @@
 package handlers
 
 import (
-	"fmt"
 	"fruit_shop_management_system/CMD/pkg"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func AddShopItem(c *gin.Context) {
+func UpdateItems(c *gin.Context) {
 
 	reqBody := pkg.Add_Fruits{}
 
-	err := c.Bind(&reqBody)
+	r := c.Bind(&reqBody)
 
-	if err != nil {
-
-		d, _ := fmt.Println(err)
+	if r != nil {
 		res := gin.H{
-			"err":    d,
-			"status": "request body cant be empty",
-			"result": reqBody,
+			"binding": "error",
+			"func":    "create user",
 		}
-
 		c.JSON(http.StatusBadRequest, res)
 		c.Abort()
 		return
-
 	}
 
 	if reqBody.Id == 0 || reqBody.Fruits == "" {
@@ -40,7 +34,7 @@ func AddShopItem(c *gin.Context) {
 		return
 	}
 
-	result, hence := pkg.InsertFruitsDB(reqBody)
+	result, hence := pkg.UpdateFruits(reqBody)
 
 	if !hence {
 		resA := gin.H{
@@ -50,9 +44,10 @@ func AddShopItem(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, resA)
 	} else {
 		resA := gin.H{
-			"status": "Order Succesfully created",
+			"status": "Order Succesfully updated",
 			"result": result,
 		}
 		c.JSON(http.StatusOK, resA)
 	}
+
 }

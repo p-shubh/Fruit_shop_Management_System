@@ -1,4 +1,4 @@
-package pkg
+package handlers
 
 import (
 	"fruit_shop_management_system/CMD/pkg"
@@ -60,4 +60,3 @@ func CreateUser(c *gin.Context) {
 	}
 
 }
-
