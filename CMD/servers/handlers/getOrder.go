@@ -10,9 +10,6 @@ import (
 )
 
 func GetOrder(c *gin.Context) {
-	// reqBody := pkg.Id{}
-
-	// err := c.Bind(&reqBody)
 
 	ID, err := c.Params.Get("id")
 	// fmt.Println("ERRRRRRRRRRRR :",err)

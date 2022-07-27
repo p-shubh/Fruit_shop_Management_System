@@ -93,7 +93,7 @@ func DeleteFruitItems(Id int) (int, bool) {
 
 	_, err := utils.DB.Exec(Insert, Id)
 
-	if err != nil { //there is an error
+	if err != nil {
 
 		hence = false
 
@@ -109,26 +109,20 @@ func DeleteFruitItems(Id int) (int, bool) {
 
 }
 
-func FetchOrders(Id int) (int, bool) {
+func FetchOrders(Id int) (Add_Fruits, bool) {
 
 	var hence bool = true
 
-	Insert := `SELECT * FROM fruits_account where id = $1;`
+	reqBody := Add_Fruits{}
 
-	_, err := utils.DB.Exec(Insert, Id)
+	row := utils.DB.QueryRow(`SELECT id, fruits FROM fruits_account where id = $1;`, Id)
 
-	if err != nil { //there is an error
+	rows := row.Scan(&reqBody.Id, &reqBody.Fruits)
 
+	if rows != nil {
 		hence = false
-
-		fmt.Println(err)
-
-		panic(err)
-
-	} else {
-		hence = true
 	}
 
-	return Id, hence
+	return reqBody, hence
 
 }
