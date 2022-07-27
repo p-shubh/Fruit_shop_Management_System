@@ -20,5 +20,5 @@ type Add_Fruits struct {
 }
 
 type Id struct {
-	Id int `josn:"id"`
+	Id int `json:"id"`
 }
