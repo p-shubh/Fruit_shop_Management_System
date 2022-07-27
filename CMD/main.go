@@ -1,16 +1,14 @@
 package main
 
 import (
-	routers "fruit_shop_management_system/CMD/servers"
-
-	"github.com/gin-gonic/gin"
+	"fruit_shop_management_system/CMD/servers"
+	"fruit_shop_management_system/CMD/utils"
 )
 
 func main() {
 
-	router := gin.Default()
+	utils.Connection_with_db()
+	defer utils.DB.Close()
 
-	routers.Setuprouter(router)
-
-	router.Run(":8080")
+	servers.Servers()
 }
