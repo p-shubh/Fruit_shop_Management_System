@@ -8,9 +8,6 @@ import (
 func InsertUserDB(reqBody Create_Shop_Account, user_type int) (Create_Shop_Account, bool) {
 
 	var hence bool = true
-	// var a = reqBody
-
-	// fmt.Println("a", a)
 
 	if user_type == 2 {
 		reqBody.Shop_Name = "general user account"
@@ -20,7 +17,7 @@ func InsertUserDB(reqBody Create_Shop_Account, user_type int) (Create_Shop_Accou
 
 	_, err := utils.DB.Exec(Insert, reqBody.First_Name, reqBody.Last_Name, reqBody.Address, reqBody.Email, reqBody.Shop_Name, reqBody.Password, user_type)
 
-	if err != nil { //there is an error
+	if err != nil { 
 
 		hence = false
 
@@ -34,7 +31,6 @@ func InsertUserDB(reqBody Create_Shop_Account, user_type int) (Create_Shop_Accou
 
 	return reqBody, hence
 
-	// return reqBody
 }
 
 func InsertFruitsDB(reqBody Add_Fruits) (Add_Fruits, bool) {
@@ -45,7 +41,7 @@ func InsertFruitsDB(reqBody Add_Fruits) (Add_Fruits, bool) {
 
 	_, err := utils.DB.Exec(Insert, reqBody.Id, reqBody.Fruits)
 
-	if err != nil { //there is an error
+	if err != nil { 
 
 		hence = false
 
@@ -69,8 +65,7 @@ func UpdateFruits(reqBody Add_Fruits) (Add_Fruits, bool) {
 
 	_, err := utils.DB.Exec(Insert, reqBody.Fruits, reqBody.Id)
 
-	if err != nil { //there is an error
-
+	if err != nil { 
 		hence = false
 
 		fmt.Println(err)
