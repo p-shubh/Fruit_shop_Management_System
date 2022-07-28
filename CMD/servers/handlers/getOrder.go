@@ -12,7 +12,6 @@ import (
 func GetOrder(c *gin.Context) {
 
 	ID, err := c.Params.Get("id")
-	// fmt.Println("ERRRRRRRRRRRR :",err)
 
 	Id, err2 := strconv.Atoi(ID)
 

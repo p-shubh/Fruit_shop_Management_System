@@ -25,3 +25,9 @@ type Add_Fruits struct {
 type Id struct {
 	Id int `json:"id" binding:"required"`
 }
+
+type Get_User_Detail struct {
+	Create_Shop_Account
+	Id        int `json:"id"`
+	User_Type int `json:"user_type"`
+}

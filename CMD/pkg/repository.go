@@ -167,6 +167,14 @@ func EmailExist(Email string) bool {
 
 // =====================================================get user===================================================
 
-func GetUserByEmail(Email string)  {
-	
+func GetUserByEmail(Email string) Get_User_Detail {
+
+	reqBody := Get_User_Detail{}
+
+	sqlStatement := utils.DB.QueryRow(`SELECT (id,first_name,last_name,address,email,password,shop_name,user_type) FROM account where email = $1`, Email)
+
+	sqlStatement.Scan(&reqBody.Id, &reqBody.First_Name, &reqBody.Last_Name, &reqBody.Address, &reqBody.Email, &reqBody.Password, &reqBody.Shop_Name, &reqBody.User_Type)
+
+	return reqBody
+
 }
