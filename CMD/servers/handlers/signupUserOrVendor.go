@@ -13,7 +13,7 @@ func CreateUser(c *gin.Context) {
 
 	reqBody := pkg.Create_Shop_Account{}
 
-	r := c.Bind(&reqBody)
+	c.Bind(&reqBody)
 
 	if c.Request.URL.Path == "/signupUser/vendor" {
 		user_type = 1
@@ -21,13 +21,16 @@ func CreateUser(c *gin.Context) {
 		user_type = 2
 	}
 
-	if r == nil {
-		res := gin.H{
-			"binding": "error",
-			"func":    "create user",
-		}
-		c.JSON(http.StatusBadRequest, res)
-	} else if reqBody.First_Name == "" || reqBody.Email == "" || reqBody.Password == "" || reqBody.Phone_no == "" || reqBody.Shop_Name == "" {
+	// if r == nil {
+	// 	res := gin.H{
+	// 		"binding": "error",
+	// 		"func":    "create user",
+	// 	}
+	// 	c.JSON(http.StatusBadRequest, res)
+	// 	c.Abort()
+	// 	return
+	// } else
+	if reqBody.First_Name == "" || reqBody.Email == "" || reqBody.Password == "" || reqBody.Phone_no == "" || reqBody.Shop_Name == "" {
 
 		res := gin.H{
 			"1 status":           "this field can't be empty",
@@ -36,6 +39,7 @@ func CreateUser(c *gin.Context) {
 			"reqBody.Password":   reqBody.Password,
 			"reqBody.Phone_no":   reqBody.Phone_no,
 			"reqBody.shop_name":  reqBody.Shop_Name,
+			"message":            "if /signupUser/vendor shop name required else text blank in shop_name",
 		}
 		c.JSON(http.StatusOK, res)
 

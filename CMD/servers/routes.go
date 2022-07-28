@@ -12,6 +12,7 @@ func Setuprouter(c *gin.Engine) {
 
 	c.POST("/signupUser/vendor", handlers.CreateUser)
 	c.POST("/signupUser", handlers.CreateUser)
+	c.POST("/login", handlers.Login)
 	c.GET("/getOrders/:id", handlers.GetOrder)
 	c.POST("/insertfruits", handlers.AddShopItem)
 	c.PUT("/update", handlers.UpdateItems)

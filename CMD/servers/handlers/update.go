@@ -23,7 +23,7 @@ func UpdateItems(c *gin.Context) {
 		return
 	}
 
-	if reqBody.Id == 0 || reqBody.Fruits == "" {
+	if reqBody.Fruits == "" {
 		res := gin.H{
 			"status": "request body cant be empty",
 			"result": reqBody,

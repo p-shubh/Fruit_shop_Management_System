@@ -29,7 +29,7 @@ func AddShopItem(c *gin.Context) {
 
 	}
 
-	if reqBody.Id == 0 || reqBody.Fruits == "" {
+	if reqBody.Fruits == "" {
 		res := gin.H{
 			"status": "request body cant be empty",
 			"result": reqBody,

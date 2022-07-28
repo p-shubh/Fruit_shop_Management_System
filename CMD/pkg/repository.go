@@ -3,6 +3,8 @@ package pkg
 import (
 	"fmt"
 	"fruit_shop_management_system/CMD/utils"
+
+	"github.com/lib/pq"
 )
 
 func InsertUserDB(reqBody Create_Shop_Account, user_type int) (Create_Shop_Account, bool) {
@@ -17,7 +19,17 @@ func InsertUserDB(reqBody Create_Shop_Account, user_type int) (Create_Shop_Accou
 
 	_, err := utils.DB.Exec(Insert, reqBody.First_Name, reqBody.Last_Name, reqBody.Address, reqBody.Email, reqBody.Shop_Name, reqBody.Password, user_type)
 
-	if err != nil { 
+	if err != nil {
+
+		err2 := UniqueViolation(err)
+
+		if err2 != nil {
+			hence = false
+
+			fmt.Println(err)
+
+			panic(err)
+		}
 
 		hence = false
 
@@ -41,7 +53,7 @@ func InsertFruitsDB(reqBody Add_Fruits) (Add_Fruits, bool) {
 
 	_, err := utils.DB.Exec(Insert, reqBody.Id, reqBody.Fruits)
 
-	if err != nil { 
+	if err != nil {
 
 		hence = false
 
@@ -65,7 +77,7 @@ func UpdateFruits(reqBody Add_Fruits) (Add_Fruits, bool) {
 
 	_, err := utils.DB.Exec(Insert, reqBody.Fruits, reqBody.Id)
 
-	if err != nil { 
+	if err != nil {
 		hence = false
 
 		fmt.Println(err)
@@ -120,4 +132,41 @@ func FetchOrders(Id int) (Add_Fruits, bool) {
 
 	return reqBody, hence
 
+}
+
+func UniqueViolation(err error) *pq.Error {
+	if pqerr, ok := err.(*pq.Error); ok &&
+		pqerr.Code == "23505" {
+		return pqerr
+	}
+	return nil
+}
+
+// ====================================================count user exist=========================================
+
+func EmailExist(Email string) bool {
+
+	// Err := `select count(*) from account where email = $1`
+
+	var count int
+	var hence bool = true
+
+	// reqBody := Add_Fruits{}
+
+	row := utils.DB.QueryRow(`select count(*) from account where email = $1;`, Email)
+
+	rows := row.Scan(&count)
+
+	if rows != nil || count == 0 {
+		hence = false
+		fmt.Println(Email, "doesn't exist")
+	}
+
+	return hence
+}
+
+// =====================================================get user===================================================
+
+func GetUserByEmail(Email string)  {
+	
 }
