@@ -116,15 +116,21 @@ func DeleteFruitItems(Id int) (int, bool) {
 
 }
 
-func FetchOrders(Id int) (Add_Fruits, bool) {
+func FetchOrdersById(Id int) (Add_Fruits, bool) {
 
 	var hence bool = true
 
 	reqBody := Add_Fruits{}
 
-	row := utils.DB.QueryRow(`SELECT id, fruits FROM fruits_account where id = $1;`, Id)
+	// row := utils.DB.QueryRow(`SELECT id, fruits FROM fruits_account where id = $1;`, Id)
 
-	rows := row.Scan(&reqBody.Id, &reqBody.Fruits)
+	sqlStatement := "SELECT id, fruits FROM fruits_account where id = $1;"
+
+	row := utils.DB.QueryRow(sqlStatement, Id)
+
+	rows := row.Scan(&reqBody.Id.Id, &reqBody.Fruits)
+
+	fmt.Println("rows", rows)
 
 	if rows != nil {
 		hence = false
@@ -132,6 +138,22 @@ func FetchOrders(Id int) (Add_Fruits, bool) {
 
 	return reqBody, hence
 
+}
+
+func GetAllOrders() (Add_Fruits, bool) {
+	var hence bool = true
+
+	reqBody := Add_Fruits{}
+
+	row := utils.DB.QueryRow(`SELECT id,fruits FROM fruits_account`)
+
+	rows := row.Scan(&reqBody.Id.Id, &reqBody.Fruits)
+
+	if rows != nil {
+		hence = false
+	}
+
+	return reqBody, hence
 }
 
 func UniqueViolation(err error) *pq.Error {

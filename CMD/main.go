@@ -7,8 +7,15 @@ import (
 
 func main() {
 
-	utils.Connection_with_db()
-	defer utils.DB.Close()
+	// DB CONNECTION:-------------------------------
 
+	utils.Connection_with_db()
+	defer utils.DB.Close() //--------------------DB get CLOSED
+
+	// REDIS CONNECTION
+	utils.Redis()
+
+	// API SERVER
 	servers.Servers()
+
 }

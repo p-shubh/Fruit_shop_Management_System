@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetOrder(c *gin.Context) {
+func GetOrderById(c *gin.Context) {
 
 	ID, err := c.Params.Get("id")
 
@@ -26,7 +26,7 @@ func GetOrder(c *gin.Context) {
 		return
 	}
 
-	result, hence := pkg.FetchOrders(Id)
+	result, hence := pkg.FetchOrdersById(Id)
 
 	if !hence {
 		resA := gin.H{
