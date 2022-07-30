@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AddShopItem(c *gin.Context) {
+func InsertFruitItem(c *gin.Context) {
 
 	reqBody := pkg.Add_Fruits{}
 
@@ -40,7 +40,7 @@ func AddShopItem(c *gin.Context) {
 		return
 	}
 
-	result, hence := pkg.InsertFruitsDB(reqBody)
+	result, hence := pkg.InsertFruitService(reqBody)
 
 	if !hence {
 		resA := gin.H{
@@ -49,6 +49,7 @@ func AddShopItem(c *gin.Context) {
 		}
 		c.JSON(http.StatusBadRequest, resA)
 	} else {
+
 		resA := gin.H{
 			"status": "Order Succesfully created",
 			"result": result,

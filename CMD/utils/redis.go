@@ -6,7 +6,7 @@ import (
 	"github.com/go-redis/redis"
 )
 
-var client  *redis.Client
+var Client *redis.Client
 
 func Redis() {
 	fmt.Println("Testing Golang Redis")
@@ -20,12 +20,12 @@ func Redis() {
 	// pong, err := client.Ping(client.ping().Result())
 	// fmt.Println(pong, err)
 
-	client = redis.NewClient(&redis.Options{
+	Client = redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
 		DB:       0,
 	})
-	pong, err := client.Ping().Result()
+	pong, err := Client.Ping().Result()
 	fmt.Println(pong, err)
 
 	if err != nil {

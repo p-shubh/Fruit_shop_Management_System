@@ -9,13 +9,13 @@ import (
 
 func Get_All_Orders(c *gin.Context) {
 
-	reqBody, bool_value := pkg.GetAllOrders()
+	result, bool_value := pkg.GetAllOrdersService()
 
 	if bool_value {
 
 		res := gin.H{
 			"value":  "true",
-			"result": reqBody,
+			"result": result,
 		}
 
 		c.JSON(http.StatusOK, res)
@@ -23,7 +23,7 @@ func Get_All_Orders(c *gin.Context) {
 
 		res := gin.H{
 			"value":  "false",
-			"result": reqBody,
+			"result": result,
 		}
 
 		c.JSON(http.StatusBadRequest, res)

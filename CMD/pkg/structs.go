@@ -18,7 +18,7 @@ type Login struct {
 }
 
 type Add_Fruits struct {
-	Id
+	Id int `json:"id"`
 	Fruits string `json:"Fruits" binding:"required"`
 }
 

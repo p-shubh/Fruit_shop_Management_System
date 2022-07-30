@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"fruit_shop_management_system/CMD/utils"
+	"log"
 
 	"github.com/lib/pq"
 )
@@ -45,7 +46,7 @@ func InsertUserDB(reqBody Create_Shop_Account, user_type int) (Create_Shop_Accou
 
 }
 
-func InsertFruitsDB(reqBody Add_Fruits) (Add_Fruits, bool) {
+func InsertFruitsDB(reqBody Add_Fruits) bool {
 
 	var hence bool = true
 
@@ -65,7 +66,7 @@ func InsertFruitsDB(reqBody Add_Fruits) (Add_Fruits, bool) {
 		hence = true
 	}
 
-	return reqBody, hence
+	return hence
 
 }
 
@@ -116,7 +117,7 @@ func DeleteFruitItems(Id int) (int, bool) {
 
 }
 
-func FetchOrdersById(Id int) (Add_Fruits, bool) {
+func GetOrdersById(Id int) (Add_Fruits, bool) {
 
 	var hence bool = true
 
@@ -128,7 +129,7 @@ func FetchOrdersById(Id int) (Add_Fruits, bool) {
 
 	row := utils.DB.QueryRow(sqlStatement, Id)
 
-	rows := row.Scan(&reqBody.Id.Id, &reqBody.Fruits)
+	rows := row.Scan(&reqBody.Id, &reqBody.Fruits)
 
 	fmt.Println("rows", rows)
 
@@ -140,21 +141,41 @@ func FetchOrdersById(Id int) (Add_Fruits, bool) {
 
 }
 
-func GetAllOrders() (Add_Fruits, bool) {
+func GetAllOrders() ([]Add_Fruits, bool) {
 	var hence bool = true
+
+	data := []Add_Fruits{}
+
+	row, err := utils.DB.Query("SELECT * FROM fruits_account")
+
+	if err != nil {
+		log.Println("Failed to execute query: ", err)
+	}
+
+	defer row.Close()
 
 	reqBody := Add_Fruits{}
 
-	row := utils.DB.QueryRow(`SELECT id,fruits FROM fruits_account`)
+	for row.Next() {
 
-	rows := row.Scan(&reqBody.Id.Id, &reqBody.Fruits)
+		rows := row.Scan(&reqBody.Id, &reqBody.Fruits)
 
-	if rows != nil {
-		hence = false
+		if rows != nil {
+			hence = false
+			log.Fatal()
+		}
+		data = append(data, reqBody)
+
 	}
 
-	return reqBody, hence
+	// temp:= UniqueViolation(rows)
+
+	fmt.Println("get all orders = ", data)
+
+	return data, hence
 }
+
+// ====================================================================================================================================================================
 
 func UniqueViolation(err error) *pq.Error {
 	if pqerr, ok := err.(*pq.Error); ok &&

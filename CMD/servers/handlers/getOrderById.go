@@ -26,7 +26,7 @@ func GetOrderById(c *gin.Context) {
 		return
 	}
 
-	result, hence := pkg.FetchOrdersById(Id)
+	result, hence := pkg.GetOrdersById(Id)
 
 	if !hence {
 		resA := gin.H{
